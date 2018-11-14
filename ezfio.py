@@ -364,7 +364,7 @@ def SequentialConditioning():
     cmdline = [fio, "--name=SeqCond", "--readwrite=write", "--bs=128k", 
                "--ioengine=libaio", "--iodepth=64", "--direct=1", 
                "--filename=" + physDrive, "--size=" + str(testcapacity) + "G",
-               "--thread"]
+               "--thread", "--size=1g"]
     code, out, err = Run(cmdline)
     if code != 0:
         raise FIOError(" ".join(cmdline), code , err, out)
@@ -379,7 +379,7 @@ def RandomConditioning():
                "--invalidate=1", "--end_fsync=0", "--group_reporting",
                "--direct=1", "--filename=" + str(physDrive),
                "--size=" + str(testcapacity) + "G", "--ioengine=libaio",
-               "--iodepth=256", "--norandommap", "--randrepeat=0", "--thread"]
+               "--iodepth=256", "--norandommap", "--randrepeat=0", "--thread", "--size=1g"]
     code, out, err = Run(cmdline)
     if code != 0:
         raise FIOError(" ".join(cmdline), code , err, out)
@@ -563,8 +563,8 @@ def DefineTests():
     bslist = (512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072)
     qdlist = (1, 2, 4, 8, 16, 32, 64, 128, 256)
     threadslist = (1, 2, 4, 8, 16, 32, 64, 128, 256)
-    shorttime = 120 # Runtime of point tests
-    longtime = 1200 # Runtime of long-running tests
+    shorttime = 10 # Runtime of point tests
+    longtime = 10 # Runtime of long-running tests
 
     def AddTest( name, seqrand, writepct, blocksize, threads, qdperthread,
                  iops_log, runtime, desc, cmdline ):
